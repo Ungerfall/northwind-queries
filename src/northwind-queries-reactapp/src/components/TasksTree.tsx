@@ -49,7 +49,7 @@ const TasksTree = () => {
     }
     
     return (
-       <Treebeard data={data} onToggle={onToggle}/>
+       <Treebeard data={data} onToggle={onToggle} />
     )
 }
 
