@@ -1,10 +1,10 @@
 [
   {
-    "moduleId": 1,
+    "id": "1",
     "name": "Simple queries. Table joins. Subqueries.",
     "tasks": [
       {
-        "moduleId": 1,
+        "id": "1",
         "description": "Select orders (dbo.Orders) which were shipped starting with 6 May 1998 (ShippedDate column) and ShipVia greater or equal to 2.",
         "projectColumns": "OrderID, ShippedDate, ShipVia",
         "answer": "",

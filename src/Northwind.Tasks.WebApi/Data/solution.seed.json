@@ -1,0 +1,7 @@
+[
+  {
+    "id": "1",
+    "rowCount": 3,
+    "query": "SELECT * FROM dbo.Orders WHERE ShippedDate >= '19980506' AND ShipVia >= 2;"
+  }
+]
