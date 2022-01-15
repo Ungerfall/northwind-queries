@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Northwind.Tasks.WebApi.Data;
 using Northwind.Tasks.WebApi.Options;
+using Northwind.Tasks.WebApi.Services;
 using System;
 
 namespace Northwind.Tasks.WebApi;
@@ -25,7 +26,7 @@ public class Program
                     c.ConnectionString = connectionString;
                 });
                 s.AddSingleton<CosmosClient>(CosmosDbClientFactory.ImplementationFactory);
-                s.AddTransient<ILearningTasksRepository, CosmosDbNorthwindLearningTasksRepository>();
+                s.AddTransient<ILearningTasksService, LearningTasksService>();
             })
             .Build();
 

@@ -2,6 +2,7 @@
 
 namespace Northwind.Tasks.WebApi.Data;
 
-public record class LearningTask(string Name, string Description);
-public record class LearningModule(string Name, ICollection<LearningTask> Tasks, string Id);
+public record class LearningTask(string Id, string Name, string Description);
+public record class LearningModule(string Id, string Name, ICollection<LearningTask> Tasks);
+public record class LearningTaskSolution(string Id, string Query, int RowCount);
 
