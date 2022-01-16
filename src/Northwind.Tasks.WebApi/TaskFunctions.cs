@@ -20,8 +20,8 @@ public class TaskFunctions
         _tasks = tasks;
     }
 
-    [Function("GET /api/modules")]
-    public async Task<HttpResponseData> Index([HttpTrigger(AuthorizationLevel.Function, "get", Route = "modules")] HttpRequestData req)
+    [Function("GET modules")]
+    public async Task<HttpResponseData> GetModules([HttpTrigger(AuthorizationLevel.Function, "get", Route = "modules")] HttpRequestData req)
     {
         _logger.LogInformation("C# HTTP trigger function processed a request.");
 
@@ -32,7 +32,7 @@ public class TaskFunctions
         return response;
     }
 
-    [Function("POST /api/tasks/{id}/solution")]
+    [Function("POST tasks_id_solution")]
     public async Task<HttpResponseData> CheckSolution(
         [HttpTrigger(AuthorizationLevel.Function, "post", Route = "tasks/{id}/solution")] HttpRequestData req,
         string id)
