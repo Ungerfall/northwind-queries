@@ -8,45 +8,46 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 
-namespace Northwind.Tasks.WebApi
+namespace Northwind.Tasks.WebApi;
+public class TaskFunctions
 {
-    public class TaskFunctions
+    private readonly ILogger _logger;
+    private readonly ILearningTasksService _tasks;
+
+    public TaskFunctions(ILoggerFactory loggerFactory, ILearningTasksService tasks)
     {
-        private readonly ILogger _logger;
-        private readonly ILearningTasksService _tasks;
+        _logger = loggerFactory.CreateLogger<TaskFunctions>();
+        _tasks = tasks;
+    }
 
-        public TaskFunctions(ILoggerFactory loggerFactory, ILearningTasksService tasks)
-        {
-            _logger = loggerFactory.CreateLogger<TaskFunctions>();
-            _tasks = tasks;
-        }
+    [Function("GET /api/modules")]
+    public async Task<HttpResponseData> Index([HttpTrigger(AuthorizationLevel.Function, "get", Route = "modules")] HttpRequestData req)
+    {
+        _logger.LogInformation("C# HTTP trigger function processed a request.");
 
-        [Function("GET /api/modules")]
-        public async Task<HttpResponseData> Index([HttpTrigger(AuthorizationLevel.Function, "get", Route = "modules")] HttpRequestData req)
-        {
-            _logger.LogInformation("C# HTTP trigger function processed a request.");
+        var response = req.CreateResponse(HttpStatusCode.OK);
+        List<LearningModule> tasks = (await _tasks.GetLearningModules()).ToList();
+        await response.WriteAsJsonAsync(tasks);
 
-            var response = req.CreateResponse(HttpStatusCode.OK);
-            List<LearningModule> tasks = (await _tasks.GetLearningModules()).ToList();
-            await response.WriteAsJsonAsync(tasks);
+        return response;
+    }
 
-            return response;
-        }
+    [Function("POST /api/tasks/{id}/solution")]
+    public async Task<HttpResponseData> CheckSolution(
+        [HttpTrigger(AuthorizationLevel.Function, "post", Route = "tasks/{id}/solution")] HttpRequestData req,
+        string id)
+    {
+        _logger.LogInformation("C# HTTP trigger function processed a request.");
 
-        [Function("POST /api/tasks/{id}/solution")]
-        public async Task<HttpResponseData> CheckSolution(
-            [HttpTrigger(AuthorizationLevel.Function, "post", Route = "tasks/{id}/solution")] HttpRequestData req,
-            string id)
-        {
-            _logger.LogInformation("C# HTTP trigger function processed a request.");
+        int? rowCount = (await req.ReadFromJsonAsync<SolutionInput>())?.RowCount;
+        if (rowCount == null)
+            return req.CreateResponse(HttpStatusCode.BadRequest);
 
-            var rowCount = (await req.ReadFromJsonAsync<SolutionInput>()).RowCount;
-            var (correct, solution) = await _tasks.CheckSolution(id, rowCount);
+        var (correct, solution) = await _tasks.CheckSolution(id, rowCount.Value);
 
-            var response = req.CreateResponse(HttpStatusCode.OK);
-            await response.WriteAsJsonAsync(new SolutionRespose(correct, solution));
+        var response = req.CreateResponse(HttpStatusCode.OK);
+        await response.WriteAsJsonAsync(new SolutionRespose(correct, solution));
 
-            return response;
-        }
+        return response;
     }
 }
