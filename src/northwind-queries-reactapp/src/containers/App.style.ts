@@ -1,9 +1,19 @@
 import styled from 'styled-components';
 
-export const Layout = styled.div`
+export const MainLayout = styled.div`
+    display: flex;
     text-align: left;
+
+    aside {
+        width: 30%;
+    }
+
+    main {
+        flex: 1;
+        overflow: auto;
+    }
 `;
-export const Header = styled.header`
+export const HeaderLayout = styled.header`
     background-color: #282c34;
     min-height: 10vh;
     display: flex;

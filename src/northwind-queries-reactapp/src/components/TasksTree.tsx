@@ -2,8 +2,9 @@ import {useState} from 'react'
 import {Treebeard, TreeNode} from 'react-treebeard-ts';
 
 const treeData: TreeNode = {
-    name: 'root',
+    name: 'Modules',
     toggled: true,
+    loading: true,
     children: [
         {
             name: 'parent',
