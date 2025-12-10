@@ -20,6 +20,16 @@ public class TaskFunctions
         _tasks = tasks;
     }
 
+    [Function("GET /api/modules2")]
+    public Task<HttpResponseData> GetModules2([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "modules2")] HttpRequestData req)
+    {
+        _logger.LogInformation("C# HTTP trigger function processed a request.");
+
+        var response = req.CreateResponse(HttpStatusCode.OK);
+
+        return Task.FromResult(response);
+    }
+
     [Function("GET modules")]
     public async Task<HttpResponseData> GetModules([HttpTrigger(AuthorizationLevel.Function, "get", Route = "modules")] HttpRequestData req)
     {

@@ -1,4 +1,4 @@
-import TasksTree from '../components/TasksTree';
+import TasksTree from './components/TasksTree';
 import { MainLayout, HeaderLayout } from './App.style';
 
 const App = () => {

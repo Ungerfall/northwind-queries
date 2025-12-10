@@ -29,6 +29,7 @@ public class LearningTasksService : ILearningTasksService
 
         return modules;
     }
+
     public async Task<(bool IsCorrect, LearningTaskSolution solution)> CheckSolution(string taskId, int rowCount)
     {
         var container = _cosmosClient.GetContainer(CosmosDb.LearningTasksDatabase, CosmosDb.LearningTasksDatabase_SolutionContainer);
